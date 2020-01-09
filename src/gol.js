@@ -1,10 +1,29 @@
-﻿//Author: Leonardo Reis da Silva
+//Author: Leonardo Reis da Silva
 //github.com/reonardoleis
 
 var canvas = document.getElementById('canvas');
 canvas.width = 850
 canvas.height = 850
 const first_grid_prob = 50;
+
+
+//chance the "rules" here
+var rule = '23/3';
+
+
+rule = rule.split('/');
+
+var first_rule = rule[0].split('');
+var second_rule = rule[1].split('');
+
+for (let i = 0; i < first_rule.length; i++) {
+    first_rule[i] = parseInt(first_rule[i]);
+}
+
+for (let i = 0; i < second_rule.length; i++) {
+    second_rule[i] = parseInt(second_rule[i]);
+}
+
 const ctx = canvas.getContext('2d');
 var cell_size_x = 5;
 var cell_size_y = (cell_size_x * window.innerWidth) / window.innerHeight;
@@ -46,9 +65,9 @@ function emptyGrid() {
 }
 
 function drawArray(array) {
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = 'white';
     for (let i = 0; i < array_size; i++) {
 
 
@@ -109,10 +128,18 @@ function generateNext(input) {
 
 
             //rules
-            if (current.state && (curr_alive == 2 || curr_alive == 3)) {
-                output[i][j] = 1;
-            } else if (!current.state && curr_alive == 3) {
-                output[i][j] = 1;
+            if (current.state) {
+                for (let n = 0; n < first_rule.length; n++) {
+                    if (curr_alive == first_rule[n]) {
+                        output[i][j] = 1;
+                    }
+                }
+            } else if (!current.state) {
+                for (let n = 0; n < second_rule.length; n++) {
+                    if (curr_alive == second_rule[n]) {
+                        output[i][j] = 1;
+                    }
+                }
             } else {
                 output[i][j] = 0;
             }
